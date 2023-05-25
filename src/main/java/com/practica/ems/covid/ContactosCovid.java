@@ -47,8 +47,8 @@ public class ContactosCovid {
 	public void setLocalizacion(Localizacion localizacion) {
 		this.localizacion = localizacion;
 	}
-	
-	
+
+
 
 	public ListaContactos getListaContactos() {
 		return listaContactos;
@@ -95,7 +95,7 @@ public class ContactosCovid {
 		BufferedReader br = null;
 		String datas[] = null, data = null;
 		loadDataFile(fichero, reset, archivo, fr, br, datas, data);
-		
+
 	}
 
 	@SuppressWarnings("resource")
@@ -110,7 +110,7 @@ public class ContactosCovid {
 				this.poblacion = new Poblacion();
 				this.localizacion = new Localizacion();
 				this.listaContactos = new ListaContactos();
-			} 
+			}
 			/**
 			 * Lectura del fichero	línea a línea. Compruebo que cada línea 
 			 * tiene el tipo PERSONA o LOCALIZACION y cargo la línea de datos en la 
@@ -124,16 +124,11 @@ public class ContactosCovid {
 						throw new EmsInvalidTypeException();
 					}
 					if (datos[0].equals("PERSONA")) {
-						if (datos.length != Constantes.MAX_DATOS_PERSONA) {
-							throw new EmsInvalidNumberOfDataException("El número de datos para PERSONA es menor de 8");
-						}
+						throwEmsInvalidNumberOfDataException(datos.length != Constantes.MAX_DATOS_PERSONA, "El número de datos para PERSONA es menor de 8");
 						this.poblacion.addPersona(this.crearPersona(datos));
 					}
 					if (datos[0].equals("LOCALIZACION")) {
-						if (datos.length != Constantes.MAX_DATOS_LOCALIZACION) {
-							throw new EmsInvalidNumberOfDataException(
-									"El número de datos para LOCALIZACION es menor de 6" );
-						}
+						throwEmsInvalidNumberOfDataException(datos.length != Constantes.MAX_DATOS_LOCALIZACION,"El número de datos para LOCALIZACION es menor de 6");
 						PosicionPersona pp = this.crearPosicionPersona(datos);
 						this.localizacion.addLocalizacion(pp);
 						this.listaContactos.insertarNodoTemporal(pp);
@@ -157,6 +152,13 @@ public class ContactosCovid {
 			}
 		}
 	}
+
+	public void throwEmsInvalidNumberOfDataException(boolean condition, String message) throws EmsInvalidNumberOfDataException{
+		if (condition) {
+			throw new EmsInvalidNumberOfDataException(message);
+		}
+	}
+
 	public int findPersona(String documento) throws EmsPersonNotFoundException {
 		int pos;
 		try {
@@ -227,27 +229,27 @@ public class ContactosCovid {
 		for (int i = 1; i < Constantes.MAX_DATOS_PERSONA; i++) {
 			String s = data[i];
 			switch (i) {
-			case 1:
-				persona.setDocumento(s);
-				break;
-			case 2:
-				persona.setNombre(s);
-				break;
-			case 3:
-				persona.setApellidos(s);
-				break;
-			case 4:
-				persona.setEmail(s);
-				break;
-			case 5:
-				persona.setDireccion(s);
-				break;
-			case 6:
-				persona.setCp(s);
-				break;
-			case 7:
-				persona.setFechaNacimiento(parsearFecha(s));
-				break;
+				case 1:
+					persona.setDocumento(s);
+					break;
+				case 2:
+					persona.setNombre(s);
+					break;
+				case 3:
+					persona.setApellidos(s);
+					break;
+				case 4:
+					persona.setEmail(s);
+					break;
+				case 5:
+					persona.setDireccion(s);
+					break;
+				case 6:
+					persona.setCp(s);
+					break;
+				case 7:
+					persona.setFechaNacimiento(parsearFecha(s));
+					break;
 			}
 		}
 		return persona;
@@ -260,28 +262,28 @@ public class ContactosCovid {
 		for (int i = 1; i < Constantes.MAX_DATOS_LOCALIZACION; i++) {
 			String s = data[i];
 			switch (i) {
-			case 1:
-				posicionPersona.setDocumento(s);
-				break;
-			case 2:
-				fecha = data[i];
-				break;
-			case 3:
-				hora = data[i];
-				posicionPersona.setFechaPosicion(parsearFecha(fecha, hora));
-				break;
-			case 4:
-				latitud = Float.parseFloat(s);
-				break;
-			case 5:
-				longitud = Float.parseFloat(s);
-				posicionPersona.setCoordenada(new Coordenada(latitud, longitud));
-				break;
+				case 1:
+					posicionPersona.setDocumento(s);
+					break;
+				case 2:
+					fecha = data[i];
+					break;
+				case 3:
+					hora = data[i];
+					posicionPersona.setFechaPosicion(parsearFecha(fecha, hora));
+					break;
+				case 4:
+					latitud = Float.parseFloat(s);
+					break;
+				case 5:
+					longitud = Float.parseFloat(s);
+					posicionPersona.setCoordenada(new Coordenada(latitud, longitud));
+					break;
 			}
 		}
 		return posicionPersona;
 	}
-	
+
 	private FechaHora parsearFecha (String fecha) {
 		int dia, mes, anio;
 		String[] valores = fecha.split("\\/");
@@ -291,7 +293,7 @@ public class ContactosCovid {
 		FechaHora fechaHora = new FechaHora(dia, mes, anio, 0, 0);
 		return fechaHora;
 	}
-	
+
 	private FechaHora parsearFecha (String fecha, String hora) {
 		int dia, mes, anio;
 		String[] valores = fecha.split("\\/");
