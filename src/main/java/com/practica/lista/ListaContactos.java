@@ -27,10 +27,9 @@ public class ListaContactos {
 				/**
 				 * Insertamos en la lista de coordenadas
 				 */
-				NodoPosicion npActual = aux.getListaCoordenadas();
-				NodoPosicion npAnt=null;
+				NodoPosicion npAnt= new NodoPosicion();
 				boolean npEncontrado = false;
-				insertNewNode(p,npActual,npEncontrado,npAnt);
+				insertNewNode(p, aux.getListaCoordenadas(), npEncontrado, npAnt, aux);
 				if(!npEncontrado) {
 					NodoPosicion npNuevo = new NodoPosicion(p.getCoordenada(),1, null);
 					if(aux.getListaCoordenadas()==null)
@@ -53,10 +52,10 @@ public class ListaContactos {
 		if(!encontrado) {
 			NodoTemporal nuevo = new NodoTemporal();
 			nuevo.setFecha(p.getFechaPosicion());
-			NodoPosicion npActual = nuevo.getListaCoordenadas();
-			NodoPosicion npAnt=null;
+
+			NodoPosicion npAnt= new NodoPosicion();
 			boolean npEncontrado = false;
-			insertNewNode(p,npActual,npEncontrado,npAnt);
+			insertNewNode(p, nuevo.getListaCoordenadas(), npEncontrado, npAnt, nuevo);
 			if(!npEncontrado) {
 				NodoPosicion npNuevo = new NodoPosicion(p.getCoordenada(),  1, null);
 				if(nuevo.getListaCoordenadas()==null)
@@ -77,7 +76,7 @@ public class ListaContactos {
 		}
 	}
 
-	public void insertNewNode(PosicionPersona p, NodoPosicion npActual, boolean npEncontrado, NodoPosicion npAnt){
+	public void insertNewNode(PosicionPersona p, NodoPosicion npActual, boolean npEncontrado, NodoPosicion npAnt, NodoTemporal nodoTemporal){
 		while (npActual!=null && !npEncontrado) {
 			if(npActual.getCoordenada().equals(p.getCoordenada())) {
 				npEncontrado=true;
@@ -87,7 +86,15 @@ public class ListaContactos {
 				npActual = npActual.getSiguiente();
 			}
 		}
+		if(!npEncontrado) {
+			NodoPosicion npNuevo = new NodoPosicion(p.getCoordenada(),1, null);
+			if(nodoTemporal.getListaCoordenadas()==null)
+				nodoTemporal.setListaCoordenadas(npNuevo);
+			else
+				npAnt.setSiguiente(npNuevo);
+		}
 	}
+
 	private boolean buscarPersona (String documento, NodoPersonas nodo) {
 		NodoPersonas aux = nodo;
 		while(aux!=null) {
