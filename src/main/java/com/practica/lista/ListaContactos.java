@@ -20,8 +20,41 @@ public class ListaContactos {
 		 * Busco la posición adecuada donde meter el nodo de la lista, excepto
 		 * que esté en la lista. Entonces solo añadimos una coordenada.
 		 */
-		iterateThroughNodes(p, aux, ant,salir, encontrado);
-		/**
+		while (aux!=null && !salir) {
+			if(aux.getFecha().compareTo(p.getFechaPosicion())==0) {
+				encontrado = true;
+				salir = true;
+				/**
+				 * Insertamos en la lista de coordenadas
+				 */
+				NodoPosicion npActual = aux.getListaCoordenadas();
+				NodoPosicion npAnt=null;
+				boolean npEncontrado = false;
+				while (npActual!=null && !npEncontrado) {
+					if(npActual.getCoordenada().equals(p.getCoordenada())) {
+						npEncontrado=true;
+						npActual.setNumPersonas(npActual.getNumPersonas()+1);
+					}else {
+						npAnt = npActual;
+						npActual = npActual.getSiguiente();
+					}
+				}
+				if(!npEncontrado) {
+					NodoPosicion npNuevo = new NodoPosicion(p.getCoordenada(),1, null);
+					if(aux.getListaCoordenadas()==null)
+						aux.setListaCoordenadas(npNuevo);
+					else
+						npAnt.setSiguiente(npNuevo);
+				}
+			}
+			else if(aux.getFecha().compareTo(p.getFechaPosicion())<0) {
+				ant = aux;
+				aux=aux.getSiguiente();
+			}
+			else if(aux.getFecha().compareTo(p.getFechaPosicion())>0) {
+				salir=true;
+			}
+		}		/**
 		 * No hemos encontrado ninguna posición temporal, así que
 		 * metemos un nodo nuevo en la lista
 		 */
@@ -59,43 +92,6 @@ public class ListaContactos {
 			}
 			this.size++;
 
-		}
-	}
-	public void iterateThroughNodes(PosicionPersona p, NodoTemporal aux, NodoTemporal ant,boolean salir, boolean encontrado){
-		while (aux!=null && !salir) {
-			if(aux.getFecha().compareTo(p.getFechaPosicion())==0) {
-				encontrado = true;
-				salir = true;
-				/**
-				 * Insertamos en la lista de coordenadas
-				 */
-				NodoPosicion npActual = aux.getListaCoordenadas();
-				NodoPosicion npAnt=null;
-				boolean npEncontrado = false;
-				while (npActual!=null && !npEncontrado) {
-					if(npActual.getCoordenada().equals(p.getCoordenada())) {
-						npEncontrado=true;
-						npActual.setNumPersonas(npActual.getNumPersonas()+1);
-					}else {
-						npAnt = npActual;
-						npActual = npActual.getSiguiente();
-					}
-				}
-				if(!npEncontrado) {
-					NodoPosicion npNuevo = new NodoPosicion(p.getCoordenada(),1, null);
-					if(aux.getListaCoordenadas()==null)
-						aux.setListaCoordenadas(npNuevo);
-					else
-						npAnt.setSiguiente(npNuevo);
-				}
-			}
-			else if(aux.getFecha().compareTo(p.getFechaPosicion())<0) {
-				ant = aux;
-				aux=aux.getSiguiente();
-			}
-			else if(aux.getFecha().compareTo(p.getFechaPosicion())>0) {
-				salir=true;
-			}
 		}
 	}
 	private boolean buscarPersona (String documento, NodoPersonas nodo) {
