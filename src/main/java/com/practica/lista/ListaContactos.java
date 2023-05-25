@@ -30,13 +30,6 @@ public class ListaContactos {
 				NodoPosicion npAnt= new NodoPosicion();
 				boolean npEncontrado = false;
 				insertNewNode(p, aux.getListaCoordenadas(), npEncontrado, npAnt, aux);
-				if(!npEncontrado) {
-					NodoPosicion npNuevo = new NodoPosicion(p.getCoordenada(),1, null);
-					if(aux.getListaCoordenadas()==null)
-						aux.setListaCoordenadas(npNuevo);
-					else
-						npAnt.setSiguiente(npNuevo);
-				}
 			}
 			else if(aux.getFecha().compareTo(p.getFechaPosicion())<0) {
 				ant = aux;
@@ -56,14 +49,6 @@ public class ListaContactos {
 			NodoPosicion npAnt= new NodoPosicion();
 			boolean npEncontrado = false;
 			insertNewNode(p, nuevo.getListaCoordenadas(), npEncontrado, npAnt, nuevo);
-			if(!npEncontrado) {
-				NodoPosicion npNuevo = new NodoPosicion(p.getCoordenada(),  1, null);
-				if(nuevo.getListaCoordenadas()==null)
-					nuevo.setListaCoordenadas(npNuevo);
-				else
-					npAnt.setSiguiente(npNuevo);
-			}
-
 			if(ant!=null) {
 				nuevo.setSiguiente(aux);
 				ant.setSiguiente(nuevo);
