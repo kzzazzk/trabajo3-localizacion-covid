@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 
 public class PersonPropertyHashMap {
     private HashMap<Integer, Consumer<String>> propertyMap = new HashMap<>();
-    private Persona persona;
+    private static Persona persona;
     // Definir las acciones a realizar para cada posición del arreglo
     public PersonPropertyHashMap(Persona persona) {
         propertyMap.put(1, persona::setDocumento);

@@ -38,5 +38,5 @@ public class PersonPositionHashMap {
     public Consumer<String> get(int i) {
         return propertyMap.get(i);
     }
-    
+
 }
