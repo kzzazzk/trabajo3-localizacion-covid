@@ -2,6 +2,7 @@ package com.practica.genericas;
 
 
 public class PosicionPersona {
+
 	private Coordenada coordenada;
 	private String documento;
 	private FechaHora fechaPosicion;
@@ -39,5 +40,5 @@ public class PosicionPersona {
 	
 		return cadena;
 	}
-		
+
 }

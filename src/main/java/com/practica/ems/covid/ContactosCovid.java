@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.practica.excecption.EmsDuplicateLocationException;
 import com.practica.excecption.EmsDuplicatePersonException;
@@ -14,11 +15,7 @@ import com.practica.excecption.EmsInvalidNumberOfDataException;
 import com.practica.excecption.EmsInvalidTypeException;
 import com.practica.excecption.EmsLocalizationNotFoundException;
 import com.practica.excecption.EmsPersonNotFoundException;
-import com.practica.genericas.Constantes;
-import com.practica.genericas.Coordenada;
-import com.practica.genericas.FechaHora;
-import com.practica.genericas.Persona;
-import com.practica.genericas.PosicionPersona;
+import com.practica.genericas.*;
 import com.practica.lista.ListaContactos;
 
 public class ContactosCovid {
@@ -210,72 +207,30 @@ public class ContactosCovid {
 
 	private Persona crearPersona(String[] data) {
 		Persona persona = new Persona();
+		PersonPropertyHashMap personHashMap = new PersonPropertyHashMap(persona);
 		for (int i = 1; i < Constantes.MAX_DATOS_PERSONA; i++) {
 			String s = data[i];
-			switch (i) {
-				case 1:
-					persona.setDocumento(s);
-					break;
-				case 2:
-					persona.setNombre(s);
-					break;
-				case 3:
-					persona.setApellidos(s);
-					break;
-				case 4:
-					persona.setEmail(s);
-					break;
-				case 5:
-					persona.setDireccion(s);
-					break;
-				case 6:
-					persona.setCp(s);
-					break;
-				case 7:
-					persona.setFechaNacimiento(parsearFecha(s));
-					break;
+			Consumer<String> action = personHashMap.get(i);
+			if (action != null) {
+				action.accept(s);
 			}
 		}
 		return persona;
 	}
 
 	private PosicionPersona crearPosicionPersona(String[] data) {
-		PosicionPersona posicionPersona = new PosicionPersona();
 		String fecha = null, hora;
 		float latitud = 0, longitud;
+		PosicionPersona posicionPersona = new PosicionPersona();
+		PersonPositionHashMap personHashMap = new PersonPositionHashMap(posicionPersona);
 		for (int i = 1; i < Constantes.MAX_DATOS_LOCALIZACION; i++) {
 			String s = data[i];
-			switch (i) {
-				case 1:
-					posicionPersona.setDocumento(s);
-					break;
-				case 2:
-					fecha = data[i];
-					break;
-				case 3:
-					hora = data[i];
-					posicionPersona.setFechaPosicion(parsearFecha(fecha, hora));
-					break;
-				case 4:
-					latitud = Float.parseFloat(s);
-					break;
-				case 5:
-					longitud = Float.parseFloat(s);
-					posicionPersona.setCoordenada(new Coordenada(latitud, longitud));
-					break;
+			Consumer<String> action = personHashMap.get(i);
+			if (action != null) {
+				action.accept(s);
 			}
 		}
 		return posicionPersona;
-	}
-
-	private FechaHora parsearFecha (String fecha) {
-		int dia, mes, anio;
-		String[] valores = fecha.split("\\/");
-		dia = Integer.parseInt(valores[0]);
-		mes = Integer.parseInt(valores[1]);
-		anio = Integer.parseInt(valores[2]);
-		FechaHora fechaHora = new FechaHora(dia, mes, anio, 0, 0);
-		return fechaHora;
 	}
 
 	private FechaHora parsearFecha (String fecha, String hora) {
@@ -291,4 +246,5 @@ public class ContactosCovid {
 		FechaHora fechaHora = new FechaHora(dia, mes, anio, minuto, segundo);
 		return fechaHora;
 	}
+
 }
