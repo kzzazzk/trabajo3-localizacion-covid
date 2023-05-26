@@ -7,6 +7,7 @@ public class PersonPositionHashMap {
     private HashMap<Integer, Consumer<String>> propertyMap = new HashMap<>();
     private String fecha = null, hora;
     private float latitud, longitud;
+
     // Definir las acciones a realizar para cada posición del arreglo
     public PersonPositionHashMap(PosicionPersona posicionPersona) {
         propertyMap.put(1, posicionPersona::setDocumento);
@@ -21,22 +22,21 @@ public class PersonPositionHashMap {
             posicionPersona.setCoordenada(new Coordenada(latitud, longitud));
         });
     }
-    private FechaHora parsearFecha (String fecha, String hora) {
-        int dia, mes, anio;
-        String[] valores = fecha.split("\\/");
-        dia = Integer.parseInt(valores[0]);
-        mes = Integer.parseInt(valores[1]);
-        anio = Integer.parseInt(valores[2]);
-        int minuto, segundo;
-        valores = hora.split("\\:");
-        minuto = Integer.parseInt(valores[0]);
-        segundo = Integer.parseInt(valores[1]);
-        FechaHora fechaHora = new FechaHora(dia, mes, anio, minuto, segundo);
-        return fechaHora;
+
+    private FechaHora parsearFecha(String fecha, String hora) {
+        String[] fechaValues = fecha.split("\\/");
+        String[] horaValues = hora.split("\\:");
+
+        int dia = Integer.parseInt(fechaValues[0]);
+        int mes = Integer.parseInt(fechaValues[1]);
+        int anio = Integer.parseInt(fechaValues[2]);
+        int minuto = Integer.parseInt(horaValues[0]);
+        int segundo = Integer.parseInt(horaValues[1]);
+
+        return new FechaHora(dia, mes, anio, minuto, segundo);
     }
 
     public Consumer<String> get(int i) {
         return propertyMap.get(i);
     }
-
 }
