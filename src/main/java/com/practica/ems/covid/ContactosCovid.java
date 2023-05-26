@@ -219,8 +219,6 @@ public class ContactosCovid {
 	}
 
 	private PosicionPersona crearPosicionPersona(String[] data) {
-		String fecha = null, hora;
-		float latitud = 0, longitud;
 		PosicionPersona posicionPersona = new PosicionPersona();
 		PersonPositionHashMap personHashMap = new PersonPositionHashMap(posicionPersona);
 		for (int i = 1; i < Constantes.MAX_DATOS_LOCALIZACION; i++) {
@@ -233,18 +231,5 @@ public class ContactosCovid {
 		return posicionPersona;
 	}
 
-	private FechaHora parsearFecha (String fecha, String hora) {
-		int dia, mes, anio;
-		String[] valores = fecha.split("\\/");
-		dia = Integer.parseInt(valores[0]);
-		mes = Integer.parseInt(valores[1]);
-		anio = Integer.parseInt(valores[2]);
-		int minuto, segundo;
-		valores = hora.split("\\:");
-		minuto = Integer.parseInt(valores[0]);
-		segundo = Integer.parseInt(valores[1]);
-		FechaHora fechaHora = new FechaHora(dia, mes, anio, minuto, segundo);
-		return fechaHora;
-	}
 
 }

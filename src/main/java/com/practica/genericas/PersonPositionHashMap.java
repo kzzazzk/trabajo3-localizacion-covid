@@ -38,20 +38,5 @@ public class PersonPositionHashMap {
     public Consumer<String> get(int i) {
         return propertyMap.get(i);
     }
-
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
-
-    public void setLatitud(float latitud) {
-        this.latitud = latitud;
-    }
-
-    public void setLongitud(float longitud) {
-        this.longitud = longitud;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
+    
 }
